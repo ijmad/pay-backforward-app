@@ -26,23 +26,43 @@ def details_get(id):
     global payments
     
     if payments[id]['confirmed']:
-      return \
-        '<html><head><title>Make Payment</title></head>'\
-        '<body>'\
-        '  <h1>GOV.UK Pay</h1>'\
-        '  <p>You already entered your details and confirmed your payment</p>'\
-        '  <p><a href="/return">Back to service</a></p>'\
-        '</body>'\
-        '</html>'
+      if payments[id]['success']:
+        return \
+          '<html><head><title>Make Payment</title></head>'\
+          '<body>'\
+          '  <h1>GOV.UK Pay</h1>'\
+          '  <p>You already entered your details and confirmed your payment</p>'\
+          '  <p><a href="/return">Back to service</a></p>'\
+          '</body>'\
+          '</html>'
+        else:
+          return \
+            '<html><head><title>Make Payment</title></head>'\
+            '<body>'\
+            '  <h1>GOV.UK Pay</h1>'\
+            '  <p>Your payment failed. Please return to the service to try again.</p>'\
+            '  <p><a href="/return">Back to service</a></p>'\
+            '</body>'\
+            '</html>'
     elif payments[id]['entered_card']:
-      return \
-        '<html><head><title>Make Payment</title></head>'\
-        '<body>'\
-        '  <h1>GOV.UK Pay</h1>'\
-        '  <p>You already submitted your details.</p>'\
-        '  <p><a href="' + url_for('confirm_get', id=id) + '">Confirm</a></p>'\
-        '</body>'\
-        '</html>'
+      if payments[id]['success']:
+        return \
+          '<html><head><title>Make Payment</title></head>'\
+          '<body>'\
+          '  <h1>GOV.UK Pay</h1>'\
+          '  <p>You already submitted your details.</p>'\
+          '  <p><a href="' + url_for('confirm_get', id=id) + '">Confirm</a></p>'\
+          '</body>'\
+          '</html>'
+        else:
+          return \
+            '<html><head><title>Make Payment</title></head>'\
+            '<body>'\
+            '  <h1>GOV.UK Pay</h1>'\
+            '  <p>Your payment failed. Please return to the service to try again.</p>'\
+            '  <p><a href="/return">Back to service</a></p>'\
+            '</body>'\
+            '</html>'
     else:
       return \
         '<html><head><title>Make Payment</title></head>'\
