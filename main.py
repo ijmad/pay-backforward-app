@@ -113,6 +113,7 @@ def confirm_post(id):
 
 @app.route('/return', methods=['GET'])
 def return_redirect():
+  global DEMO_APP_URL
   return redirect(DEMO_APP_URL + '/return', code=303)
 
 @app.route('/status/<int:id>', methods=['GET'])
