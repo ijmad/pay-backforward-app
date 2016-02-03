@@ -29,45 +29,50 @@ def details_get(id):
       if payments[id]['success']:
         return \
           '<html><head><title>Make Payment</title></head>'\
-          '<body>'\
+          '<body style=\"font-size: 150%;\">'\
           '  <h1>GOV.UK Pay</h1>'\
+          '  <h2>Enter Your Card Details</h2>'\
           '  <p>You already entered your details and confirmed your payment</p>'\
           '  <p><a href="/return">Back to service</a></p>'\
           '</body>'\
           '</html>'
-        else:
-          return \
-            '<html><head><title>Make Payment</title></head>'\
-            '<body>'\
-            '  <h1>GOV.UK Pay</h1>'\
-            '  <p>Your payment failed. Please return to the service to try again.</p>'\
-            '  <p><a href="/return">Back to service</a></p>'\
-            '</body>'\
-            '</html>'
+      else:
+        return \
+          '<html><head><title>Make Payment</title></head>'\
+          '<body style=\"font-size: 150%;\">'\
+          '  <h1>GOV.UK Pay</h1>'\
+          '  <h2>Enter Your Card Details</h2>'\
+          '  <p>Your payment failed. Please return to the service to try again.</p>'\
+          '  <p><a href="/return">Back to service</a></p>'\
+          '</body>'\
+          '</html>'
     elif payments[id]['entered_card']:
       if payments[id]['success']:
         return \
-          '<html><head><title>Make Payment</title></head>'\
-          '<body>'\
+          '<html><head><title>Make Payment </title></head>'\
+          '<body style=\"font-size: 150%;\">'\
           '  <h1>GOV.UK Pay</h1>'\
+          '  <h2>Enter Your Card Details</h2>'\
           '  <p>You already submitted your details.</p>'\
           '  <p><a href="' + url_for('confirm_get', id=id) + '">Confirm</a></p>'\
           '</body>'\
           '</html>'
-        else:
-          return \
-            '<html><head><title>Make Payment</title></head>'\
-            '<body>'\
-            '  <h1>GOV.UK Pay</h1>'\
-            '  <p>Your payment failed. Please return to the service to try again.</p>'\
-            '  <p><a href="/return">Back to service</a></p>'\
-            '</body>'\
-            '</html>'
+      else:
+        return \
+          '<html><head><title>Make Payment</title></head>'\
+          '<body style=\"font-size: 150%;\">'\
+          '  <h1>GOV.UK Pay</h1>'\
+          '  <h2>Enter Your Card Details</h2>'\
+          '  <p>Your payment failed. Please return to the service to try again.</p>'\
+          '  <p><a href="/return">Back to service</a></p>'\
+          '</body>'\
+          '</html>'
     else:
       return \
         '<html><head><title>Make Payment</title></head>'\
-        '<body>'\
+        '<body style=\"font-size: 150%;\">'\
         '  <h1>GOV.UK Pay</h1>'\
+        '  <h2>Enter Your Card Details</h2>'\
         '  <form action="' + url_for('details_post', id=id) + '" method="POST">'\
         '    <p><select name="card">'\
         '      <option value="valid">4242 4242 4242 4242 (valid)</option>'\
@@ -96,18 +101,31 @@ def confirm_get(id):
     global payments
     
     if payments[id]['confirmed']:
-      return \
-        '<html><head><title>Make Payment</title></head>'\
-        '<body>'\
-        '  <h1>GOV.UK Pay</h1>'\
-        '  <p>You already paid.</p>'\
-        '  <p><a href="/return">Back to service</a></p>'\
-        '</body>'\
-        '</html>'
+      if payments[id]['success']:
+        return \
+          '<html><head><title>Make Payment</title></head>'\
+          '<body style=\"font-size: 150%;\">'\
+          '  <h1>GOV.UK Pay</h1>'\
+          '  <h2>Confirm Payment</h2>'\
+          '  <p>You already confirmed this payment and paid successfully. Go back to the service.</p>'\
+          '  <p><a href="/return">Back to service</a></p>'\
+          '</body>'\
+          '</html>'
+      else:
+        return \
+          '<html><head><title>Make Payment</title></head>'\
+          '<body style=\"font-size: 150%;\">'\
+          '  <h1>GOV.UK Pay</h1>'\
+          '  <h2>Confirm Payment</h2>'\
+          '  <p>You failed to pay. Go back to the service to try again.</p>'\
+          '  <p><a href="/return">Back to service</a></p>'\
+          '</body>'\
+          '</html>'
     elif payments[id]['success']:
       return '<html><head><title>Confirm Payment</title></head>'\
-        '<body>'\
+        '<body style=\"font-size: 150%;\">'\
         '  <h1>GOV.UK Pay</h1>'\
+        '  <h2>Confirm Payment</h2>'\
         '  <form action="' + url_for('confirm_post', id=id) + '" method="POST">'\
         '    <p>You really want to pay?</p>'\
         '    <p><button type="submit">Confirm</button></p>'\
@@ -116,8 +134,9 @@ def confirm_get(id):
         '</html>'
     else:
       return '<html><head><title>Confirm Payment</title></head>'\
-        '<body>'\
+        '<body style=\"font-size: 150%;\">'\
         '  <h1>GOV.UK Pay</h1>'\
+        '  <h2>Confirm Payment</h2>'\
         '  <form action="' + url_for('confirm_post', id=id) + '" method="POST">'\
         '    <p>Your card details were naff.</p>'\
         '    <p><button type="submit">I\'m so sorry</button></p>'\
@@ -134,6 +153,7 @@ def confirm_post(id):
 @app.route('/return', methods=['GET'])
 def return_redirect():
   global DEMO_APP_URL
+  print DEMO_APP_URL + 'return'
   return redirect(DEMO_APP_URL + 'return', code=303)
 
 @app.route('/status/<int:id>', methods=['GET'])
